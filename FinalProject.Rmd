@@ -1,0 +1,94 @@
+---
+title: "Final Project"
+author: "Victoria Miller"
+date: "November 8, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Loading in tidyverse library
+```{r}
+library(tidyverse)
+```
+Load in dataset
+```{r}
+murders=read_csv("database.csv")
+```
+
+Summarizing Data
+```{r}
+summary(murders)
+```
+
+How many guns have been used over the years?
+```{r}
+weapon_years=select(filter(murders,Weapon!='Unknown'),Weapon,Year)
+
+ggplot(filter(weapon_years,Year==1980),aes(x=Weapon,fill=factor(Weapon)))+geom_bar()
+ggplot(filter(weapon_years,Year==2000),aes(x=Weapon,fill=factor(Weapon)))+geom_bar()
+
+```
+
+Demographics of Victims and how they have changed over years
+```{r}
+#Race
+race_years=select(filter(murders,VictimRace!='Unknown'),VictimRace,Year)
+ggplot(filter(race_years,Year==1980),aes(x=VictimRace,fill=factor(VictimRace)))+geom_bar()
+
+#Sex
+sex_years=select(filter(murders,VictimSex!='Unknown'),VictimSex,Year)
+ggplot(filter(sex_years,Year==1980),aes(x=VictimSex,fill=factor(VictimSex)))+geom_bar()+coord_polar(theta="y")
+
+#Age
+age_years=select(filter(murders,VictimAge!='Unknown'),VictimAge,Year)
+ggplot(filter(age_years,Year==1980),aes(x=VictimAge))+
+  geom_histogram(bins=100)+coord_cartesian(xlim = c(0, 100)) 
+
+
+```
+
+Proportion of victims related to perpetrator?
+```{r}
+relationship=select(murders,Relationship)
+
+#looking at types of Relationships
+group_rel=relationship%>%group_by(Relationship)%>%summarise(count=n())
+head(group_rel)
+
+ggplot(relationship,aes(x=Relationship))+geom_bar()
+```
+
+Correlation between gender and weapon?
+```{r}
+sex_weapon=select(filter(murders,PerpetratorSex!='Unknown'),PerpetratorSex,Weapon)
+female_weapon=filter(sex_weapon,PerpetratorSex=="Female")
+male_weapon=filter(sex_weapon,PerpetratorSex=="Male")
+
+#bar graph
+ggplot(sex_weapon)+geom_bar(aes(x=Weapon,fill=PerpetratorSex))
+
+ggplot(female_weapon)+geom_bar(aes(x=Weapon))
+ggplot(male_weapon)+geom_bar(aes(x=Weapon))
+```
+
+What time of the year do most murders happen?
+```{r}
+group_month=murders%>%
+  select(Month)%>%
+  group_by(Month)%>%
+  summarise(count=n())
+
+group_month
+```
+
+Age vs. Weapon
+```{r}
+
+```
+
+Is there a trend amongst victims?
+```{r}
+
+```
