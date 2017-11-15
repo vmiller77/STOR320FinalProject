@@ -42,22 +42,30 @@ server <- function(input, output) {
     
   })
   
+  #------------------------------------------------------------------------------#
+  # Bar Graphs and Histograms for output
+  
+  #relies on Slider for input$year
   output$weaponBarGraph = renderPlot({
     weapon_years=select(filter(murders,Weapon!='Unknown'),Weapon,Year)
     ggplot(filter(weapon_years,Year==input$year.weapon),aes(x=Weapon,fill=factor(Weapon)))+
       geom_bar()
   })
   
+  #relies on Slider for input$year
   output$raceBarGraph = renderPlot({
     race_years=select(filter(murders,VictimRace!='Unknown'),VictimRace,Year)
     ggplot(filter(race_years,Year==input$year.race),aes(x=VictimRace,fill=factor(VictimRace)))+geom_bar()
   })
   
+  #relies on Slider for input$year
   output$sexBarGraph = renderPlot({
     sex_years=select(filter(murders,VictimSex!='Unknown'),VictimSex,Year)
     ggplot(filter(sex_years,Year==input$year.sex),aes(x=VictimSex,fill=factor(VictimSex)))+geom_bar()
   })
   
+  #relies on Slider for input$year
+  #relies on
   output$ageHistogram = renderPlot({
     age_years=select(filter(murders,VictimAge!='Unknown'),VictimAge,Year)
     ggplot(filter(age_years,Year==input$year.age),aes(x=VictimAge,fill=factor(VictimAge)))+

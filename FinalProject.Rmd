@@ -85,7 +85,9 @@ group_month
 
 Age vs. Weapon
 ```{r}
-
+murders%>%
+  filter(VictimAge=='NA')
+ggplot(data=murders)+geom_jitter(aes(x=Weapon,y=VictimAge))
 ```
 
 Is there a trend amongst victims?
